@@ -1,0 +1,5 @@
+Tool data into google chart api from collectd driven rrd db on linux
+
+config file rcr.yaml
+
+plan: add merb slice to drive resolution and time intervals
