@@ -3,3 +3,8 @@ Tool data into google chart api from collectd driven rrd db on linux
 config file rcr.yaml
 
 plan: add merb slice to drive resolution and time intervals, and tinyhttp install
+
+need to figure out what to do with min/max/avg etc
+
+
+wondering if gchart is slowing things down, adding gridlines and line widths would be nice

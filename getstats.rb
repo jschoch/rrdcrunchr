@@ -28,12 +28,47 @@ if __FILE__ == $0
   m_pos = array.size / 2
   return array.size % 2 == 1 ? array[m_pos] : mean (array[m_pos-1..m_pos])
  end
+
+
+
  def mean(array)
  	array.inject(0) { |sum, x| sum +=x } /array.size.to_f
  end
-  #
-  # chart setup
-  #
+
+
+
+
+ def get_rrd(interval,rrd_file,rrd_type)
+  time = Time.now
+  resolution = 15 
+  start_time = ((time.tv_sec/resolution)*resolution).to_i
+  rawdata = `#{CONF['rrdtool_path']}/rrdtool fetch #{rrd_file} #{rrd_type} -e #{start_time} -r #{resolution} -s e-#{interval}m |#{CONF['awk_path']}/awk '{printf"%s,", $2}'` 
+  datas = rawdata.split(",")
+  mdata = []
+  ymax =0
+  ymin = 100000000
+  for d in datas
+        #STDOUT.print "#{d} " unless  d.downcase =~ /nan/
+        stat = d.to_f
+        if (stat)
+                mdata.push(stat) unless d.downcase =~ /nan/
+        end
+        if (ymax < stat)
+                ymax = d.to_f
+        end
+        if (ymin > stat)
+                ymin = d.to_f
+        end
+  end
+  is_zero = false
+  stat_median = median(mdata)
+  if (stat_median == 0 and ymin.to_f == 0 && ymax.to_f == 0)
+        is_zero = true
+  end
+  [mdata,is_zero,ymin,ymax,stat_median]
+ end
+
+
 
  def get_uri(rrd_file,interval)
 
@@ -45,66 +80,33 @@ if __FILE__ == $0
   type = "ls"
   colour = "8198A2"
   threshold_colour = "ff0000"
-  #data = "1,12,30,40,50,40,30,20,10"
-  time = Time.now
-  resolution = 30
-  start_time = ((time.tv_sec/resolution)*resolution).to_i
-  #start_time = time.tv_sec.to_i
-  #STDOUT.puts "running rrd command: /usr/bin/rrdtool fetch #{rrd_file} AVERAGE -e start_time -s e-#{interval}m"
-  rawdata = `#{CONF['rrdtool_path']}/rrdtool fetch #{rrd_file} AVERAGE -e #{start_time} -r #{resolution} -s e-#{interval}m |#{CONF['awk_path']}/awk '{printf"%s,", $2}'`
 
-  #rawdata = `/usr/bin/rrdtool fetch #{rrd_file} AVERAGE -e (($(date +%s)/900*900)) -s e-#{interval}m |/usr/bin/awk '{printf"%s,", $2}'`
-  datas = rawdata.split(",")
-  mdata = []
-  ymax =0
-  ymin = 100000000
-  for d in datas
-        #STDOUT.print "#{d} " unless  d.downcase =~ /nan/	
-	stat = d.to_f
-	if (stat)
-		mdata.push(stat) unless d.downcase =~ /nan/
-        end
-	if (ymax < stat)
-		ymax = d.to_f
-	end
-	if (ymin > stat)
-		ymin = d.to_f
-	end
-  end
-  #data.chop!
-  #ymin = "0"
-  
+  is_zero = false
+  min_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MIN")
+  max_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MAX")
+  avg_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"AVERAGE")
+
   
   # 80th percentile stuff, not needed right now
 
-  yshade_colour = "E9F1F4"
-  ythresh = "0"
-  ymax_shade = "0"
-  ymin_shade = "0"
-  dimensions = "1000x265"
   
-  #uri = "<img src=#{source}?cht=#{type}&chco=#{colour}&chm=r,#{threshold_colour}"
-  #uri += ",0,#{ythresh},#{ythresh.to_f+0.00}|r,#{yshade_colour},0,#{ymax_shade}"
-  #uri += ",#{ymin_shade}&chds=#{ymin},#{ymax}&chs=#{dimensions}&chd=t:"
-  #uri += data
-  #uri += ">"
-  #puts uri
+  all_data = []
 
-  #STDOUT.puts mdata
+  if (min_data == avg_data && max_data == avg_data)
+	all_data = avg_data
+  else
+	all_data = [min_data,max_data,avg_data]
+  end
+  # :line_colors => 'FF0000,00FF00,666666',
   uri = Gchart.sparkline( :size => '1000x165', 
-            :title => "",
+            :title => names[-1],
             :bg => 'FFCCFF',
-            :line_colors => '0077CC',
+	    :line_colors => 'FF0000,00FF00,666666',
 	    :axis_with_labels => ['x','y','r'],
 	    :encoding => 'simple',
-	    :data => mdata)
+	    :data => all_data)
 
   names = rrd_file.split("\/")
-  stat_median = median(mdata)
-  is_zero = false
-  if (stat_median == 0 and ymin.to_f == 0 && ymax.to_f == 0)
-  	is_zero = true
-  end
   [uri,names[-1],ymin,ymax,stat_median,is_zero]
  end
 
@@ -141,7 +143,7 @@ if __FILE__ == $0
   puts '<html><head><title>RRD Crunchr v0.1</title><link href="http://numbrcrunchr.com/css/main.css" rel="stylesheet" type="text/css"/><script language="JavaScript" src="http://numbrcrunchr.com/js/datetimepicker.js" type="text/javascript"></script></head><div id="pageHeader"><h1>RRD<font color=#E5702B>Crunchr</font></h1></div>'
 # get rrds
   #files = Dir["/opt/collectd/var/lib/collectd/**/*.rrd"]
-  files = Dir[CONF['rrd_data_path']]
+  files = Dir[CONF['rrd_data_path']].sort
 # print tables
   interval = ARGV[0]
   htmlout = ""
