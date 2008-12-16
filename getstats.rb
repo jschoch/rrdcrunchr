@@ -10,7 +10,7 @@ if __FILE__ == $0
 
 
   #unless ARGV[0] interval = 10
-  interval = 10 unless ARGV[0] 
+  interval = 900 unless ARGV[0] 
   
   STDOUT.puts "using interval #{interval}"
   STDOUT.puts "RRD Data: #{CONF['rrd_data_path']}"
@@ -47,7 +47,7 @@ if __FILE__ == $0
   threshold_colour = "ff0000"
   #data = "1,12,30,40,50,40,30,20,10"
   time = Time.now
-  resolution = 10
+  resolution = 30
   start_time = ((time.tv_sec/resolution)*resolution).to_i
   #start_time = time.tv_sec.to_i
   #STDOUT.puts "running rrd command: /usr/bin/rrdtool fetch #{rrd_file} AVERAGE -e start_time -s e-#{interval}m"
