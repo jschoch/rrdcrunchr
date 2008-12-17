@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<meta name="generator"
+      content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org">
+
+<title>NumbrCrunchr v1.0</title>
+<link href="http://numbrcrunchr.com/css/main.css"
+      rel="stylesheet"
+      type="text/css">
+<script language="JavaScript"
+      src="http://numbrcrunchr.com/js/datetimepicker.js"
+      type="text/javascript">
+</script>
+</head>
+
+<body>
+<div id="pageHeader">
+<h1>Numb<font color="#E5702B">r</font>Crunch<font color="#E5702B">r</font></h1>
+
+<h2>Performance Monitoring</h2>
+</div>
+
+<h2>perf_sar_solaris</h2><br>
+
+<form id="form"
+      name="form"
+      method="post">
+<select name="table_selected">
+<option value="perf_sar_solaris">
+perf_sar_solaris
+</option>
+
+<option value="all">
+Show all tables
+</option>
+</select><select name="counter_name_selected">
+<option value="all">
+Show all counters
+</option>
+
+<option value="iget/s">
+iget/s
+</option>
+
+<option value="namei/s">
+namei/s
+</option>
+
+<option value="dirbk/s">
+dirbk/s
+</option>
+
+<option value="bread/s">
+bread/s
+</option>
+
+<option value="lread/s">
+lread/s
+</option>
+
+<option value="%rcache">
+%rcache
+</option>
+
+<option value="bwrit/s">
+bwrit/s
+</option>
+
+<option value="lwrit/s">
+lwrit/s
+</option>
+
+<option value="%wcache">
+%wcache
+</option>
+
+<option value="pread/s">
+pread/s
+</option>
+
+<option value="pwrit/s">
+pwrit/s
+</option>
+
+<option value="scall/s">
+scall/s
+</option>
+
+<option value="sread/s">
+sread/s
+</option>
+
+<option value="swrit/s">
+swrit/s
+</option>
+
+<option value="fork/s">
+fork/s
+</option>
+
+<option value="exec/s">
+exec/s
+</option>
+
+<option value="rchar/s">
+rchar/s
+</option>
+
+<option value="wchar/s">
+wchar/s
+</option>
+
+<option value="pgout/s">
+pgout/s
+</option>
+
+<option value="ppgout/s">
+ppgout/s
+</option>
+
+<option value="pgfree/s">
+pgfree/s
+</option>
+
+<option value="pgscan/s">
+pgscan/s
+</option>
+
+<option value="%ufs_ipf">
+%ufs_ipf
+</option>
+
+<option value="sml_mem">
+sml_mem
+</option>
+
+<option value="sm_alloc">
+sm_alloc
+</option>
+
+<option value="sm_fail">
+sm_fail
+</option>
+
+<option value="lg_mem">
+lg_mem
+</option>
+
+<option value="lg_alloc">
+lg_alloc
+</option>
+
+<option value="lg_fail">
+lg_fail
+</option>
+
+<option value="ovsz_alloc">
+ovsz_alloc
+</option>
+
+<option value="ovsz_fail">
+ovsz_fail
+</option>
+
+<option value="msg/s">
+msg/s
+</option>
+
+<option value="sema/s">
+sema/s
+</option>
+
+<option value="atch/s">
+atch/s
+</option>
+
+<option value="pgin/s">
+pgin/s
+</option>
+
+<option value="ppgin/s">
+ppgin/s
+</option>
+
+<option value="pflt/s">
+pflt/s
+</option>
+
+<option value="vflt/s">
+vflt/s
+</option>
+
+<option value="slock/s">
+slock/s
+</option>
+
+<option value="runq-sz">
+runq-sz
+</option>
+
+<option value="%runocc">
+%runocc
+</option>
+
+<option value="swpq-sz">
+swpq-sz
+</option>
+
+<option value="%swpocc">
+%swpocc
+</option>
+
+<option value="freemem">
+freemem
+</option>
+
+<option value="freeswap">
+freeswap
+</option>
+
+<option value="%usr">
+%usr
+</option>
+
+<option value="%sys">
+%sys
+</option>
+
+<option value="%wio">
+%wio
+</option>
+
+<option value="%idle">
+%idle
+</option>
+
+<option value="proc-sz">
+proc-sz
+</option>
+
+<option value="proc_ov">
+proc_ov
+</option>
+
+<option value="inod-sz">
+inod-sz
+</option>
+
+<option value="inod_ov">
+inod_ov
+</option>
+
+<option value="file-sz">
+file-sz
+</option>
+
+<option value="fil_ov">
+fil_ov
+</option>
+
+<option value="lock-sz">
+lock-sz
+</option>
+
+<option value="swpin/s">
+swpin/s
+</option>
+
+<option value="bswin/s">
+bswin/s
+</option>
+
+<option value="swpot/s">
+swpot/s
+</option>
+
+<option value="bswot/s">
+bswot/s
+</option>
+
+<option value="pswch/s">
+pswch/s
+</option>
+
+<option value="rawch/s">
+rawch/s
+</option>
+
+<option value="canch/s">
+canch/s
+</option>
+
+<option value="outch/s">
+outch/s
+</option>
+
+<option value="rcvin/s">
+rcvin/s
+</option>
+
+<option value="xmtin/s">
+xmtin/s
+</option>
+
+<option value="mdmin/s">
+mdmin/s
+</option>
+</select><select name="filter_name_selected">
+<option value="all">
+Show all groups
+</option>
+
+<option value=" db-100a">
+db-100a
+</option>
+
+<option value=" db-100b">
+db-100b
+</option>
+
+<option value=" server-101a">
+server-101a
+</option>
+
+<option value=" server-101b">
+server-101b
+</option>
+
+<option value=" server-102a">
+server-102a
+</option>
+
+<option value=" server-102b">
+server-102b
+</option>
+</select><br>
+<br>
+<span id="dtg">Showing 8 hours 38 mins of data</span><br>
+<input name="df"
+      value="2008-05-19"
+      onclick="displayDatePicker('df');"
+      size="10"><input name="tf"
+      value="15:19"
+      size="5"><input name="dt"
+      value="2008-05-19"
+      onclick="displayDatePicker('dt');"
+      size="10"><input name="tt"
+      value="23:57"
+      size="5"><br>
+<input type="submit"
+      value="refresh">
+</form>
+</body>
+</html>

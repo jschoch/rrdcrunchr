@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<meta name="generator"
+      content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org">
+
+<title>RRDCrunchr v0.1</title>
+<link href="http://numbrcrunchr.com/css/main.css"
+      rel="stylesheet"
+      type="text/css">
+<script language="JavaScript"
+      src="http://numbrcrunchr.com/js/datetimepicker.js"
+      type="text/javascript">
+</script>
+</head>
+
+<body>
+<div id="pageHeader">
+<h1>RRD<font color="#E5702B">Crunchr</font></h1>
+
+<h2>Performance Monitoring</h2>
+</div>
+
+
+<form id="form" name="form" method="post" action="/">
+	<table>
+<%
+interval = 60 
+if (params[:interval])
+	interval = params[:interval]
+end
+resolution = 60 
+if (params[:resolution])
+	resolution = params[:resolution]
+end
+%>	
+<tr>
+<th>RRD Group</th>
+<th>RRY TYPE</th>
+<th>RRD Host</th>
+<th>RRD Resolution (seconds)></th>
+<th>RRD Sample Interval (mins)</th></tr>
+<tr>
+<td><%= select :name => "type", :collection => @rrdgroups %></td>
+
+<td><%= select :name => "type", :collection => @rrdtypes,:multiple => "multiple" %></td>
+
+<td><%= select :name => "host", :collection => @hosts %></td>
+<td><%= text_field :name => "resolution", :value => resolution%></td>
+<td><%= text_field :name => "interval", :value => interval%></td>
+</tr>
+</table>
+<br>
+<br>
+<span id="dtg">Showing 8 hours 38 mins of data</span><br>
+<input name="df"
+      value="2008-05-19"
+      onclick="displayDatePicker('df');"
+      size="10"><input name="tf"
+      value="15:19"
+      size="5"><input name="dt"
+      value="2008-05-19"
+      onclick="displayDatePicker('dt');"
+      size="10"><input name="tt"
+      value="23:57"
+      size="5"><br>
+<input type="submit"
+      value="refresh">
+</form><BR>
+<%= params.inspect %><BR>
+
+<%= CONF['rrd_data_path']%><BR>
+<%
+for host in @hosts
+	if (host != "All")
+		file = "/var/lib/collectd/rrd/#{host}/load/load.rrd" 
+
+		uri,rrd_name,ymin,ymax,stat_median,is_zero = get_uri(file,interval,resolution,host)
+    	%><img src=<%=uri%>><%
+	end
+end
+%>
+
+
+
+<!--
+<% for host in @hosts%>
+Host:  <%= host %><BR>
+<% end %>
+<% for type in @rrdtypes%>
+Type:  <%= type %><BR>
+<% end %>	
+-->
+</body>
+</html>
