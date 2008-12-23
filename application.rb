@@ -12,6 +12,7 @@ class Rrdcrunchr < Merb::Controller
     @hosts.inspect
     @rrdtypes.inspect
     @rrdgroups = ["All"]
+    @rrdp = get_rrd_path
     
     render
     
