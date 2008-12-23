@@ -74,7 +74,7 @@ end
 <%
 for host in @hosts
 	if (host != "All")
-		file = "/var/lib/collectd/rrd/#{host}/load/load.rrd" 
+		file = "#{@rrdp}/#{host}/load/load.rrd" 
 
 		uri,rrd_name,ymin,ymax,stat_median,is_zero = get_uri(file,interval,resolution,host)
     	%><img src=<%=uri%>><%

@@ -34,6 +34,9 @@ def get_rrdtypes
   end
   rrdtypes
 end
+def get_rrd_path
+        CONF['rrd_data_home']
+end
 
 def median (array, already_sorted=false)
   return nil if array.empty?
