@@ -1,11 +1,21 @@
 Tool data into google chart api from collectd driven rrd db on linux
-
-config file rcr.yaml
-
-plan: add merb slice to drive resolution and time intervals, and tinyhttp install
-
-need to figure out what to do with min/max/avg etc
+Creates pretty charts for your data's
 
 
-adding min/max x axis labels would be good
-add candle chart for min/max/avg
+Install:
+
+1. install and configure collectd server and clients
+2. install merb on server.  currently worked with 1.0.4 and 1.0.12
+3. edit config file rcr.yaml, specify rrdtool location, and rrd data dir
+4. run merb in rrdcrunchr directory
+
+
+Bugs:
+
+Ignore the calendar, RRD Sample Interval will set how far back the data goes
+RRD Sample Interval needs to be multiple of 60
+If there is no RRD for a given host error is not pretty
+
+
+
+
