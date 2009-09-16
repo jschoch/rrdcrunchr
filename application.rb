@@ -1,5 +1,5 @@
 class Rrdcrunchr < Merb::Controller
-
+	#test
   def _template_location(action, type = nil, controller = controller_name)
     controller == "layout" ? "layout.#{action}.#{type}" : "#{action}.#{type}"
   end
