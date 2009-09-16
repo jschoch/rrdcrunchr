@@ -83,7 +83,7 @@ if __FILE__ == $0
 
   is_zero = false
   min_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MIN")
-  max_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MAX")
+  max_data,is_zero,nada,ymax,stat_median = get_rrd(interval,rrd_file,"MAX")
   avg_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"AVERAGE")
 
   

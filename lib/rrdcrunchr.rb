@@ -25,10 +25,12 @@ def get_rrdtypes
   dir_exclude = CONF['dir_exclude'].split(" ")
   for path in paths
     p = path.split("/")
-    if (rrdtypes.include?(p[-1]))
+    full_type = "#{p[-2]}/#{p[-1]}"
+    if (rrdtypes.include?(full_type))
       print "."
     else
-      rrdtypes.push(p[-1]) unless dir_exclude.include?(p[-2])
+      print full_type
+      rrdtypes.push(full_type) unless dir_exclude.include?(p[-2])
       print "*"
     end
   end
@@ -56,7 +58,7 @@ def get_rrd(interval,rrd_file,rrd_type,resolution)
   datas = rawdata.split(",")
   mdata = []
   ymax =0
-  ymin = 100000000
+  ymin = 1
   for d in datas
         #STDOUT.print "#{d} " unless  d.downcase =~ /nan/
         stat = d.to_f
@@ -92,8 +94,8 @@ def get_uri(rrd_file,interval,resolution,host)
 
   is_zero = false
   min_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MIN",resolution)
-  max_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"MAX",resolution)
-  avg_data,is_zero,ymin,ymax,stat_median = get_rrd(interval,rrd_file,"AVERAGE",resolution)
+  max_data,is_zero,nada,ymax,stat_median = get_rrd(interval,rrd_file,"MAX",resolution)
+  avg_data,is_zero,nada,nada,stat_median = get_rrd(interval,rrd_file,"AVERAGE",resolution)
 
   
   # 80th percentile stuff, not needed right now

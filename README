@@ -7,6 +7,5 @@ plan: add merb slice to drive resolution and time intervals, and tinyhttp instal
 need to figure out what to do with min/max/avg etc
 
 
-wondering if gchart is slowing things down, adding gridlines and line widths would be nice
 adding min/max x axis labels would be good
 add candle chart for min/max/avg

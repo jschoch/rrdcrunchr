@@ -42,11 +42,11 @@ end
 <th>RRD Resolution (seconds)></th>
 <th>RRD Sample Interval (mins)</th></tr>
 <tr>
-<td><%= select :name => "type", :collection => @rrdgroups %></td>
+<td><%= select :name => "group", :collection => @rrdgroups %></td>
 
-<td><%= select :name => "type", :collection => @rrdtypes,:multiple => "multiple" %></td>
+<td><%= select :name => "type", :selected => params['type'],:collection => @rrdtypes,:multiple => "multiple" %></td>
 
-<td><%= select :name => "host", :collection => @hosts %></td>
+<td><%= select :name => "host", :collection => @all_hosts, :selected => params['host'] %></td>
 <td><%= text_field :name => "resolution", :value => resolution%></td>
 <td><%= text_field :name => "interval", :value => interval%></td>
 </tr>
@@ -72,13 +72,29 @@ end
 
 <%= CONF['rrd_data_path']%><BR>
 <%
+for type in @types
+
 for host in @hosts
 	if (host != "All")
-		file = "#{@rrdp}/#{host}/load/load.rrd" 
+		file = "#{@rrdp}/#{host}/#{type}" 
+		if (File.exists?(file))
+			puts "Loading File: #{file} type: #{type}"
+			uri,rrd_name,ymin,ymax,stat_median,is_zero = get_uri(file,interval,resolution,host)
+		else
+			puts "Can't find #{file} type: #{type} #{type}"
+		end
+    	%>
+<table>
+<tr>
+<td> Max: <%=ymax%> <br />Median: <%=stat_median%><br />Min: <%=ymin%><br /> 
+</td>
+<td><img src=<%=uri%>></td>
+</tr>
+</table>
 
-		uri,rrd_name,ymin,ymax,stat_median,is_zero = get_uri(file,interval,resolution,host)
-    	%><img src=<%=uri%>><%
+<%
 	end
+end
 end
 %>
 
